@@ -1,0 +1,30 @@
+version: '3'
+services:
+    apache: 
+        container_name: apache
+        hostname: apache
+        build: ./containers/apache
+        ports: 
+            - '80:80'
+        links:
+            - 'php:php'
+        volumes: 
+            - './app:/usr/local/apache2/htdocs'
+        
+    php: 
+        container_name: php
+        hostname: php
+        build: ./containers/php
+        links: 
+            - 'mysql:mysql'
+        volumes: 
+            - './app:/var/www/html'
+    
+    mysql: 
+        container_name: mysql
+        hostname: mysql
+        build: ./containers/mysql
+        ports: 
+            - '3306:3306'
+        environment: 
+            - MYSQL_ROOT_PASSWORD=root
